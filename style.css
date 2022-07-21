@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Calculator';
+    src: url(font/Calculator.ttf);
+}
+
 body {
     box-sizing: border-box;
     margin: 0;
@@ -37,6 +42,7 @@ body {
     top: 3%;
     border-radius: 22.5px;
     box-shadow: inset 0 0px 10px #0003, 0 0 0 2px #0002;
+    font-family: 'Calculator', serif;
 }
 
 .buttons-container {
