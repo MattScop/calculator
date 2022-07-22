@@ -9,10 +9,16 @@ The number inserted AFTER the operator must start with a fresh line,
 placing the old number on the secondary line
 */
 
+/* 
+STEP THREE:
+Calculate the values when pressing equals button
+*/
+
 const buttonsNumber = document.getElementsByClassName('number');
 const buttonsCalc = document.getElementsByClassName('calc');
 const multiplier = document.querySelector('.multiplier');
 const divider = document.querySelector('.divider');
+const equalButton = document.querySelector('.equal');
 const firstLineNumbers = document.querySelector('.first-line-numbers');
 const firstLineCalcs = document.querySelector('.first-line-calcs');
 const secondaryLineNumbers = document.querySelector('.secondary-line-numbers');
@@ -34,12 +40,12 @@ Array.from(buttonsNumber).forEach(button => {
                 secondaryLineCalcs.innerText = firstLineCalcs.innerText;
                 firstLineNumbers.innerText = "";
                 firstLineCalcs.innerText = "";
-                firstLineNumbers.innerText += parseInt(e.target.innerText);
+                firstLineNumbers.innerText += e.target.innerText;
             } else {
-                firstLineNumbers.innerText += parseInt(e.target.innerText);
+                firstLineNumbers.innerText += e.target.innerText;
 
                 // Place number in array to allow for DEL button to work later
-                arrButtonsNumber.push(parseInt(e.target.innerText));
+                arrButtonsNumber.push(e.target.innerText);
             }
 
         } else {
@@ -51,14 +57,66 @@ Array.from(buttonsNumber).forEach(button => {
 // Add operators at the end
 Array.from(buttonsCalc).forEach(button => {
     button.addEventListener('click', (e) => {
-        
-        // change multiplier and divider style to better fit the font
-        if (e.target.classList.contains('multiplier')) {
-            firstLineCalcs.innerText = '*';
-        } else if (e.target.classList.contains('divider')){
-            firstLineCalcs.innerText = "/";
-        } else {
-            firstLineCalcs.innerText = e.target.innerText
+
+        // Trigger operate when clicking another operator instead of equal button
+        if (secondaryLineNumbers.innerText !== "" && firstLineNumbers.innerText !== "") {
+            operate();
         }
+            // change multiplier and divider style to better fit the font
+            if (e.target.classList.contains('multiplier')) {
+                firstLineCalcs.innerText = '*';
+            } else if (e.target.classList.contains('divider')){
+                firstLineCalcs.innerText = "/";
+            } else {
+                firstLineCalcs.innerText = e.target.innerText
+            }
+
     })
 })
+
+// Add equal functionality
+equalButton.addEventListener('click', operate);
+
+function operate() {
+    switch (true) {
+
+        // Addition
+        case secondaryLineCalcs.innerText === '+':
+            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+        break
+
+        // Subtraction
+        case secondaryLineCalcs.innerText === '-':
+            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+        break
+
+        // Multiplication
+        case secondaryLineCalcs.innerText === '*':
+            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+        break
+
+        // Division
+        case secondaryLineCalcs.innerText === '/':
+            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+        break
+
+        // Throw error if something went wrong
+        default:
+            firstLineNumbers.innerText = "ERR";
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+    }
+}
