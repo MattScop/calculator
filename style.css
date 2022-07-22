@@ -45,6 +45,21 @@ body {
     font-family: 'Calculator', serif;
 }
 
+.display-container {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    font-size: 95px;
+    color: darkslategray;
+    display: flex;
+    gap: 10px;
+}
+
+.display-calcs {
+    font-size: 65px;
+    align-self: center;
+}
+
 .buttons-container {
     position: absolute;
     display: grid;
@@ -62,9 +77,10 @@ body {
     box-shadow: -1px 2px 5px 0px #0008, inset 0 0 2px #0006;
     border-radius: 10px;
     color: #51888a;
+    cursor: pointer;
 }
 
-.button.multiplier > div {
+.button .multiplier {
     transform: rotate(45deg);
 }
 
