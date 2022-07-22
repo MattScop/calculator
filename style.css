@@ -45,7 +45,7 @@ body {
     font-family: 'Calculator', serif;
 }
 
-.display-container {
+.first-line {
     position: absolute;
     bottom: 5%;
     right: 5%;
@@ -55,8 +55,23 @@ body {
     gap: 10px;
 }
 
-.display-calcs {
+.first-line-calcs {
     font-size: 65px;
+    align-self: center;
+}
+
+.secondary-line {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 50px;
+    color: darkslategray;
+    display: flex;
+    gap: 10px;
+}
+
+.secondary-line-calcs {
+    font-size: 35px;
     align-self: center;
 }
 
