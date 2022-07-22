@@ -127,7 +127,37 @@ body {
     grid-column: span 2;
 }
 
+.on-off {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    gap: 10px;
+    top: 29%;
+    right: 10%;
+    font-style: italic;
+    color: tan;
+}
+
+.on-off-button {
+    border: none;
+    background-color: tan;
+    border-radius: 50%;
+    width: 35px;
+    color: darkslategray;
+    box-shadow: -1px 1px 4px -2px #0008, inset 0 0 3px #0002;
+    cursor: pointer;
+}
+
 .button:active {
     box-shadow: inset 0 0 10px 0 #0008, 0 0 3px 0 #0006;
     font-size: 58px;
+}
+
+.on-off-button:active {
+    box-shadow: inset 0 0 4px 0 #0008, 0 0 2px 0 #0006;
+    font-size: 12.7px;
+}
+
+.displayOnOff {
+    display: none;
 }

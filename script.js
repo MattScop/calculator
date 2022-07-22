@@ -19,6 +19,7 @@ STEP FOUR: --DONE--
 Add Clear and DEL button functionalities
 */
 
+// buttons
 const buttonsNumber = document.getElementsByClassName('number');
 const buttonsCalc = document.getElementsByClassName('calc');
 const multiplier = document.querySelector('.multiplier');
@@ -26,6 +27,11 @@ const divider = document.querySelector('.divider');
 const equalButton = document.querySelector('.equal');
 const clearButton = document.querySelector('.clear');
 const delButton = document.querySelector('.del');
+const onOffButton = document.querySelector('.on-off-button');
+
+// containers
+const firstLine = document.querySelector('.first-line');
+const secondLine = document.querySelector('.secondary-line');
 const firstLineNumbers = document.querySelector('.first-line-numbers');
 const firstLineCalcs = document.querySelector('.first-line-calcs');
 const secondaryLineNumbers = document.querySelector('.secondary-line-numbers');
@@ -146,4 +152,12 @@ delButton.addEventListener('click', del);
 function del() {
     arrButtonsNumber.pop();
     firstLineNumbers.innerText = arrButtonsNumber.join("");
+}
+
+// Add on-off button functionality
+onOffButton.addEventListener('click', powerOnOff);
+
+function powerOnOff() {
+    firstLine.classList.toggle('displayOnOff');
+    secondLine.classList.toggle('displayOnOff');
 }
