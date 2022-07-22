@@ -126,15 +126,6 @@ function operate() {
             secondaryLineCalcs.innerText = "";
             arrButtonsNumber.push(firstLineNumbers.innerText);
         break
-
-        // Throw error if something went wrong
-        default:
-            arrButtonsNumber = [];
-            firstLineNumbers.innerText = "ERR";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineNumbers.innerText);
     }
 }
 

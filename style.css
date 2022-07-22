@@ -43,6 +43,19 @@ body {
     border-radius: 22.5px;
     box-shadow: inset 0 0px 10px #0003, 0 0 0 2px #0002;
     font-family: 'Calculator', serif;
+    overflow: hidden;
+}
+
+.display::after {
+    content: "";
+    height: 770px;
+    width: 370px;
+    position: absolute;
+    border-radius: 50%;
+    right: -245px;
+    top: -285px;
+    transform: rotate(300deg);
+    background: linear-gradient(60deg, transparent 0%, rgba(255,255,255,0.15) 100%);
 }
 
 .first-line {
