@@ -4,14 +4,19 @@ When Click Number, It Appears On The Screen;
 */
 
 /* 
-SECOND STEP:
+SECOND STEP: --DONE--
 The number inserted AFTER the operator must start with a fresh line,
 placing the old number on the secondary line
 */
 
 /* 
-STEP THREE:
+STEP THREE: --DONE--
 Calculate the values when pressing equals button
+*/
+
+/* 
+STEP FOUR: --DONE--
+Add Clear and DEL button functionalities
 */
 
 const buttonsNumber = document.getElementsByClassName('number');
@@ -19,13 +24,15 @@ const buttonsCalc = document.getElementsByClassName('calc');
 const multiplier = document.querySelector('.multiplier');
 const divider = document.querySelector('.divider');
 const equalButton = document.querySelector('.equal');
+const clearButton = document.querySelector('.clear');
+const delButton = document.querySelector('.del');
 const firstLineNumbers = document.querySelector('.first-line-numbers');
 const firstLineCalcs = document.querySelector('.first-line-calcs');
 const secondaryLineNumbers = document.querySelector('.secondary-line-numbers');
 const secondaryLineCalcs = document.querySelector('.secondary-line-calcs');
 
-// Create array for numbers inserted
-const arrButtonsNumber = [];
+// Create array for numbers inserted for DEL button to work later
+let arrButtonsNumber = [];
 
 // Listen to mouse click on each button
 Array.from(buttonsNumber).forEach(button => {
@@ -40,11 +47,11 @@ Array.from(buttonsNumber).forEach(button => {
                 secondaryLineCalcs.innerText = firstLineCalcs.innerText;
                 firstLineNumbers.innerText = "";
                 firstLineCalcs.innerText = "";
+                arrButtonsNumber = [];
                 firstLineNumbers.innerText += e.target.innerText;
+                arrButtonsNumber.push(e.target.innerText);
             } else {
                 firstLineNumbers.innerText += e.target.innerText;
-
-                // Place number in array to allow for DEL button to work later
                 arrButtonsNumber.push(e.target.innerText);
             }
 
@@ -82,41 +89,70 @@ function operate() {
 
         // Addition
         case secondaryLineCalcs.innerText === '+':
+            arrButtonsNumber = [];
             firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
         break
 
         // Subtraction
         case secondaryLineCalcs.innerText === '-':
+            arrButtonsNumber = [];
             firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
         break
 
         // Multiplication
         case secondaryLineCalcs.innerText === '*':
+            arrButtonsNumber = [];
             firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
         break
 
         // Division
         case secondaryLineCalcs.innerText === '/':
+            arrButtonsNumber = [];
             firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
         break
 
         // Throw error if something went wrong
         default:
+            arrButtonsNumber = [];
             firstLineNumbers.innerText = "ERR";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
     }
+}
+
+// Add clear button functionalities
+clearButton.addEventListener('click', clear);
+
+function clear() {
+    firstLineNumbers.innerText = "";
+    firstLineCalcs.innerText = "";
+    secondaryLineNumbers.innerText = "";
+    secondaryLineCalcs.innerText = "";
+    arrButtonsNumber = [];
+}
+
+// Add del button functionalities
+delButton.addEventListener('click', del);
+
+function del() {
+    arrButtonsNumber.pop();
+    firstLineNumbers.innerText = arrButtonsNumber.join("");
 }
