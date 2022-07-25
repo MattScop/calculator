@@ -36,6 +36,7 @@ const firstLineNumbers = document.querySelector('.first-line-numbers');
 const firstLineCalcs = document.querySelector('.first-line-calcs');
 const secondaryLineNumbers = document.querySelector('.secondary-line-numbers');
 const secondaryLineCalcs = document.querySelector('.secondary-line-calcs');
+const firstLineDefaultResult = document.querySelector('.first-line-result-default');
 
 // Create array for numbers inserted for DEL button to work later
 let arrButtonsNumber = [];
@@ -45,24 +46,31 @@ Array.from(buttonsNumber).forEach(button => {
     button.addEventListener('click', (e) => {
 
         // Allow 10 numbers input max
-        if (firstLineNumbers.innerText.length <= 9) {
+        if (firstLineNumbers.innerText.length > 9 && firstLineCalcs.innerText === "") {
+            return
+        }
 
-            // Go to secondary line if operator is present on number input
-            if (firstLineCalcs.innerText !== "" ) {
-                secondaryLineNumbers.innerText = firstLineNumbers.innerText;
-                secondaryLineCalcs.innerText = firstLineCalcs.innerText;
-                firstLineNumbers.innerText = "";
-                firstLineCalcs.innerText = "";
-                arrButtonsNumber = [];
-                firstLineNumbers.innerText += e.target.innerText;
-                arrButtonsNumber.push(e.target.innerText);
+        // Go to secondary line if operator is present on number input
+        if (firstLineCalcs.innerText !== "" ) {
+
+            // allows to overwrite result number on new input
+            if (firstLineDefaultResult.innerText !== "") {
+                secondaryLineNumbers.innerText = firstLineDefaultResult.innerText;
             } else {
-                firstLineNumbers.innerText += e.target.innerText;
-                arrButtonsNumber.push(e.target.innerText);
+                secondaryLineNumbers.innerText = firstLineNumbers.innerText;
             }
 
+            secondaryLineCalcs.innerText = firstLineCalcs.innerText;
+            firstLineNumbers.innerText = "";
+            firstLineDefaultResult.innerText = "";
+            firstLineCalcs.innerText = "";
+            arrButtonsNumber = [];
+            firstLineNumbers.innerText += e.target.innerText;
+            arrButtonsNumber.push(e.target.innerText);
         } else {
-            return
+            firstLineNumbers.innerText += e.target.innerText;
+            arrButtonsNumber.push(e.target.innerText);
+            firstLineDefaultResult.innerText = "";
         }
     })
 })
@@ -96,7 +104,8 @@ function operate() {
         // Addition
         case secondaryLineCalcs.innerText === '+':
             arrButtonsNumber = [];
-            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
+            firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
@@ -106,7 +115,8 @@ function operate() {
         // Subtraction
         case secondaryLineCalcs.innerText === '-':
             arrButtonsNumber = [];
-            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
+            firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
@@ -116,7 +126,8 @@ function operate() {
         // Multiplication
         case secondaryLineCalcs.innerText === '*':
             arrButtonsNumber = [];
-            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
+            firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
@@ -126,7 +137,8 @@ function operate() {
         // Division
         case secondaryLineCalcs.innerText === '/':
             arrButtonsNumber = [];
-            firstLineNumbers.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
+            firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
             secondaryLineCalcs.innerText = "";
@@ -139,6 +151,7 @@ function operate() {
 clearButton.addEventListener('click', clear);
 
 function clear() {
+    firstLineDefaultResult.innerText = 0;
     firstLineNumbers.innerText = "";
     firstLineCalcs.innerText = "";
     secondaryLineNumbers.innerText = "";
@@ -152,6 +165,9 @@ delButton.addEventListener('click', del);
 function del() {
     arrButtonsNumber.pop();
     firstLineNumbers.innerText = arrButtonsNumber.join("");
+    if (firstLineNumbers.innerText === "") {
+        firstLineDefaultResult.innerText = 0;
+    }
 }
 
 // Add on-off button functionality
