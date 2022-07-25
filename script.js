@@ -50,6 +50,11 @@ Array.from(buttonsNumber).forEach(button => {
             return
         }
 
+        // Prevent multiple 0 from being inserted
+        if (e.target.innerText === "0" && firstLineNumbers.innerText.length < 1) {
+            return
+        }
+
         // Go to secondary line if operator is present on number input
         if (firstLineCalcs.innerText !== "" ) {
 
@@ -104,11 +109,11 @@ function operate() {
         // Addition
         case secondaryLineCalcs.innerText === '+':
             arrButtonsNumber = [];
-            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = Number(secondaryLineNumbers.innerText) + Number(firstLineNumbers.innerText);
 
             // return scientific notation if result is longer than 10 numbers
             if (firstLineDefaultResult.innerText.length > 9) {
-                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+                firstLineDefaultResult.innerText = Number(firstLineDefaultResult.innerText).toExponential(5);
             }
 
             firstLineNumbers.innerText = "";
@@ -121,11 +126,11 @@ function operate() {
         // Subtraction
         case secondaryLineCalcs.innerText === '-':
             arrButtonsNumber = [];
-            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = Number(secondaryLineNumbers.innerText) - Number(firstLineNumbers.innerText);
 
             // return scientific notation if result is longer than 10 numbers
             if (firstLineDefaultResult.innerText.length > 9) {
-                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+                firstLineDefaultResult.innerText = Number(firstLineDefaultResult.innerText).toExponential(5);
             }
 
             firstLineNumbers.innerText = "";
@@ -138,11 +143,11 @@ function operate() {
         // Multiplication
         case secondaryLineCalcs.innerText === '*':
             arrButtonsNumber = [];
-            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = Number(secondaryLineNumbers.innerText) * Number(firstLineNumbers.innerText);
 
             // return scientific notation if result is longer than 10 numbers
             if (firstLineDefaultResult.innerText.length > 9) {
-                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+                firstLineDefaultResult.innerText = Number(firstLineDefaultResult.innerText).toExponential(5);
             }
 
             firstLineNumbers.innerText = "";
@@ -155,11 +160,11 @@ function operate() {
         // Division
         case secondaryLineCalcs.innerText === '/':
             arrButtonsNumber = [];
-            firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
+            firstLineDefaultResult.innerText = Number(secondaryLineNumbers.innerText) / Number(firstLineNumbers.innerText);
 
             // return scientific notation if result is longer than 10 numbers
             if (firstLineDefaultResult.innerText.length > 9) {
-                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+                firstLineDefaultResult.innerText = Number(firstLineDefaultResult.innerText).toExponential(5);
             }
             
             firstLineNumbers.innerText = "";
@@ -168,6 +173,15 @@ function operate() {
             secondaryLineCalcs.innerText = "";
             arrButtonsNumber.push(firstLineNumbers.innerText);
         break
+
+        case firstLineCalcs.innerText !== "" && firstLineNumbers.innerText === "":
+            arrButtonsNumber = [];
+            firstLineDefaultResult.innerText = 0;
+            firstLineNumbers.innerText = "";
+            firstLineCalcs.innerText = "";
+            secondaryLineNumbers.innerText = "";
+            secondaryLineCalcs.innerText = "";
+            arrButtonsNumber.push(firstLineNumbers.innerText);
     }
 }
 
