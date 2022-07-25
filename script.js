@@ -105,6 +105,12 @@ function operate() {
         case secondaryLineCalcs.innerText === '+':
             arrButtonsNumber = [];
             firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) + parseInt(firstLineNumbers.innerText);
+
+            // return scientific notation if result is longer than 10 numbers
+            if (firstLineDefaultResult.innerText.length > 9) {
+                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+            }
+
             firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
@@ -116,6 +122,12 @@ function operate() {
         case secondaryLineCalcs.innerText === '-':
             arrButtonsNumber = [];
             firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) - parseInt(firstLineNumbers.innerText);
+
+            // return scientific notation if result is longer than 10 numbers
+            if (firstLineDefaultResult.innerText.length > 9) {
+                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+            }
+
             firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
@@ -127,6 +139,12 @@ function operate() {
         case secondaryLineCalcs.innerText === '*':
             arrButtonsNumber = [];
             firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) * parseInt(firstLineNumbers.innerText);
+
+            // return scientific notation if result is longer than 10 numbers
+            if (firstLineDefaultResult.innerText.length > 9) {
+                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+            }
+
             firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
@@ -138,6 +156,12 @@ function operate() {
         case secondaryLineCalcs.innerText === '/':
             arrButtonsNumber = [];
             firstLineDefaultResult.innerText = parseInt(secondaryLineNumbers.innerText) / parseInt(firstLineNumbers.innerText);
+
+            // return scientific notation if result is longer than 10 numbers
+            if (firstLineDefaultResult.innerText.length > 9) {
+                firstLineDefaultResult.innerText = parseInt(firstLineDefaultResult.innerText).toExponential(5);
+            }
+            
             firstLineNumbers.innerText = "";
             firstLineCalcs.innerText = "";
             secondaryLineNumbers.innerText = "";
