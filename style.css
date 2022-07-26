@@ -108,7 +108,7 @@ body {
     cursor: pointer;
 }
 
-.button .multiplier {
+.button .multiplier-operator {
     transform: rotate(45deg);
 }
 
@@ -160,4 +160,14 @@ body {
 
 .displayOnOff {
     display: none;
+}
+
+/* FOR MOBILE */
+@media screen and (max-width: 749px) {
+    .container {
+        transform: scale(0.9);
+    }
+    .buttons-container {
+        grid-template-columns: repeat(4, 80px);
+    }
 }
