@@ -162,6 +162,14 @@ body {
     display: none;
 }
 
+footer {
+    position: absolute;
+    bottom: 3%;
+    color: white;
+    font-family: 'Calculator';
+    font-size: 2em;
+}
+
 /* FOR MOBILE */
 @media screen and (max-width: 749px) {
     .container {
