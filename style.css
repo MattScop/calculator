@@ -179,4 +179,10 @@ footer {
     .buttons-container {
         grid-template-columns: repeat(4, 80px);
     }
+    .first-line {
+        font-size: 65px;
+    }
+    .secondary-line {
+        font-size: 45px;
+    }
 }
