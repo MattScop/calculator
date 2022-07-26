@@ -165,7 +165,7 @@ body {
 
 footer {
     position: absolute;
-    bottom: 2%;
+    bottom: 0;
     color: white;
     font-family: 'Calculator';
     font-size: 2em;
