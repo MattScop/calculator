@@ -17,6 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .container {
@@ -164,7 +165,7 @@ body {
 
 footer {
     position: absolute;
-    bottom: 3%;
+    bottom: 2%;
     color: white;
     font-family: 'Calculator';
     font-size: 2em;
