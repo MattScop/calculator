@@ -124,6 +124,14 @@ function insertInput(e) {
         return
     }
 
+    // Add 0 in front of the dot when there are no integers
+    if (e.target.innerText === '.') {
+        if (firstLineNumbers.innerText === "" || firstLineNumbers.innerText === "0") {
+            firstLineNumbers.innerText = "0" + e.target.innerText;
+            return
+        }
+    }
+
     // Overwrite 0 if it's the only number
     if (firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
         firstLineNumbers.innerText = e.target.innerText;
@@ -187,6 +195,14 @@ function insertKbdInput(e) {
 
         firstLineNumbers.innerText += kbdButtonsNumber.innerText;
         return
+    }
+
+    // Add 0 in front of the dot when there are no integers
+    if (kbdButtonsNumber.innerText === '.') {
+        if (firstLineNumbers.innerText === "" || firstLineNumbers.innerText === "0") {
+            firstLineNumbers.innerText = "0" + kbdButtonsNumber.innerText;
+            return
+        }
     }
 
     // Overwrite 0 if it's the only number
@@ -403,6 +419,7 @@ delButton.addEventListener('click', del);
 function del() {
     firstLineNumbers.innerText = firstLineNumbers.innerText.slice(0, -1);
     if (firstLineNumbers.innerText === "") firstLineDefaultResult.innerText = 0;
+    if (firstLineCalcs.innerText !== "") firstLineCalcs.innerText = "";
 }
 
 // Add on-off button functionality
