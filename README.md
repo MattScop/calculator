@@ -7,7 +7,7 @@ We were asked to build a very basic calculator to demonstrate
 our DOM manipulation skills and our overall knowledge with what
 we have learned so far.
 
-As always, I took a step further and added a few more teaks like scientific notation, on/off button...
+As always, I took a step further and added a few more tweaks like scientific notation, on/off button...
 
 **IT CAN BE USED ON MOBILE TOO**
 
