@@ -36,9 +36,6 @@ const secondaryLineNumbers = document.querySelector('.secondary-line-numbers');
 const secondaryLineCalcs = document.querySelector('.secondary-line-calcs');
 const firstLineDefaultResult = document.querySelector('.first-line-result-default');
 
-// Create array for numbers inserted for DEL button to work later
-let arrButtonsNumber = [];
-
 // Listen to mouse click on each button
 Array.from(buttonsNumber).forEach(button => {
     button.addEventListener('click', insertInput)
@@ -56,49 +53,42 @@ window.addEventListener('keydown', (e) => {
     // Equal button
     if (e.key === 'Enter') {
         operate()
+        if (firstLineDefaultResult.innerText !== "") {
+            firstLineNumbers.innerText = "";
+        } else {
+            firstLineDefaultResult.innerText = "";
+        }
+        firstLineCalcs.innerText = "";
+        secondaryLineNumbers.innerText = "";
+        secondaryLineCalcs.innerText = "";
     }
 
     // Clear button
-    if (e.key === 'Delete') {
-        clear()
-    }
+    if (e.key === 'Delete') clear()
 
     // Del button
-    if (e.key === 'Backspace') {
-        del()
-    }
-
+    if (e.key === 'Backspace') del()
 })
 
 function insertInput(e) {
 
     // Allow 10 numbers input max
-    if (firstLineNumbers.innerText.length === 10 && firstLineCalcs.innerText === "") {
-        return
-    }
+    if (firstLineNumbers.innerText.length >= 10 && firstLineCalcs.innerText === "") return
 
     // Allow 3 decimals max
     if (firstLineNumbers.innerText.includes('.')) {
         let split = firstLineNumbers.innerText.split('.');
         let decimals = split[1];
-        if (decimals.length === 3 && firstLineCalcs.innerText === "") {
-            return
-        }
+        if (decimals.length >= 3 && firstLineCalcs.innerText === "") return
     }
-
-    // Prevent multiple 0 from being inserted
-    if (e.target.innerText === "0" && firstLineNumbers.innerText.length === 0) {
-        return
-    } else if (e.target.innerText === "0" && firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
-        if (firstLineCalcs.innerText !== "" || secondaryLineCalcs !== "") {
-            return
-        }
-    }
+    
+    // Prevent multiple "." from being inserted
+    if (e.target.innerText === '.' && firstLineNumbers.innerText.includes('.') && firstLineCalcs.innerText === "") return
 
     // Go to secondary line if operator is present on number input
     if (firstLineCalcs.innerText !== "") {
 
-        // allows to overwrite result number on new input
+        // Allows to overwrite result number on new input
         if (firstLineDefaultResult.innerText !== "") {
             secondaryLineNumbers.innerText = firstLineDefaultResult.innerText;
         } else {
@@ -109,25 +99,38 @@ function insertInput(e) {
         firstLineNumbers.innerText = "";
         firstLineDefaultResult.innerText = "";
         firstLineCalcs.innerText = "";
-        arrButtonsNumber = [];
-        firstLineNumbers.innerText += e.target.innerText;
-        arrButtonsNumber.push(e.target.innerText);
-    } else if (firstLineDefaultResult.innerText !== "") {
-        arrButtonsNumber = [];
-        firstLineDefaultResult.innerText = "";
-        firstLineNumbers.innerText += e.target.innerText;
-        arrButtonsNumber.push(e.target.innerText);
-    } else {
-        firstLineDefaultResult.innerText = "";
-        if (firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
-            firstLineNumbers.innerText = e.target.innerText;
-            arrButtonsNumber.push(e.target.innerText);    
-        } else {
-            firstLineNumbers.innerText += e.target.innerText;
-            arrButtonsNumber.push(e.target.innerText);
+
+        // Add 0 in front of the dot when there are no integers
+        if (e.target.innerText === '.') {
+            firstLineNumbers.innerText = "0" + e.target.innerText;
+            return
         }
+        
+        firstLineNumbers.innerText += e.target.innerText;
+        return
+    } 
+
+    // Overwrite result number on new input
+    if (firstLineDefaultResult.innerText !== "") {
+        firstLineDefaultResult.innerText = "";
+
+        // Add 0 in front of the dot when there are no integers
+        if (e.target.innerText === '.' && firstLineNumbers.innerText === "" || firstLineNumbers.innerText === "0") {
+            firstLineNumbers.innerText = "0" + e.target.innerText;
+            return
+        }
+
+        firstLineNumbers.innerText += e.target.innerText;
+        return
     }
 
+    // Overwrite 0 if it's the only number
+    if (firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
+        firstLineNumbers.innerText = e.target.innerText;
+        return
+    }
+    
+    firstLineNumbers.innerText += e.target.innerText;
 }
 
 function insertKbdInput(e) {
@@ -135,30 +138,22 @@ function insertKbdInput(e) {
     if (!kbdButtonsNumber) return // return if no key is found
 
     // Allow 10 numbers input max
-    if (firstLineNumbers.innerText.length === 10 && firstLineCalcs.innerText === "") {
-        return
-    }
+    if (firstLineNumbers.innerText.length >= 10 && firstLineCalcs.innerText === "") return
 
     // Allow 3 decimals max
     if (firstLineNumbers.innerText.includes('.')) {
         let split = firstLineNumbers.innerText.split('.');
         let decimals = split[1];
-        if (decimals.length === 3 && firstLineCalcs.innerText === "") {
-            return
-        }
+        if (decimals.length >= 3 && firstLineCalcs.innerText === "") return
     }
-
-    // Prevent multiple 0 from being inserted
-    if (kbdButtonsNumber.innerText === "0" && firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
-        if (firstLineCalcs.innerText !== "" || secondaryLineCalcs !== "") {
-            return
-        }
-    }
+    
+    // Prevent multiple "." from being inserted
+    if (kbdButtonsNumber.innerText === '.' && firstLineNumbers.innerText.includes('.') && firstLineCalcs.innerText === "") return
 
     // Go to secondary line if operator is present on number input
-    if (firstLineCalcs.innerText !== "" ) {
+    if (firstLineCalcs.innerText !== "") {
 
-        // allows to overwrite result number on new input
+        // Allows to overwrite result number on new input
         if (firstLineDefaultResult.innerText !== "") {
             secondaryLineNumbers.innerText = firstLineDefaultResult.innerText;
         } else {
@@ -169,24 +164,38 @@ function insertKbdInput(e) {
         firstLineNumbers.innerText = "";
         firstLineDefaultResult.innerText = "";
         firstLineCalcs.innerText = "";
-        arrButtonsNumber = [];
-        firstLineNumbers.innerText += kbdButtonsNumber.innerText;
-        arrButtonsNumber.push(kbdButtonsNumber.innerText);
-    }  else if (firstLineDefaultResult.innerText !== "") {
-        arrButtonsNumber = [];
-        firstLineDefaultResult.innerText = "";
-        firstLineNumbers.innerText += kbdButtonsNumber.innerText;
-        arrButtonsNumber.push(kbdButtonsNumber.innerText);
-    }  else {
-        firstLineDefaultResult.innerText = "";
-        if (firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
-            firstLineNumbers.innerText = kbdButtonsNumber.innerText;
-            arrButtonsNumber.push(kbdButtonsNumber.innerText);    
-        } else {
-            firstLineNumbers.innerText += kbdButtonsNumber.innerText;
-            arrButtonsNumber.push(kbdButtonsNumber.innerText);
+
+        // Add 0 in front of the dot when there are no integers
+        if (kbdButtonsNumber.innerText === '.') {
+            firstLineNumbers.innerText = "0" + kbdButtonsNumber.innerText;
+            return
         }
+        
+        firstLineNumbers.innerText += kbdButtonsNumber.innerText;
+        return
+    } 
+
+    // Overwrite result number on new input
+    if (firstLineDefaultResult.innerText !== "") {
+        firstLineDefaultResult.innerText = "";
+
+        // Add 0 in front of the dot when there are no integers
+        if (kbdButtonsNumber.innerText === '.' && firstLineNumbers.innerText === "" || firstLineNumbers.innerText === "0") {
+            firstLineNumbers.innerText = "0" + kbdButtonsNumber.innerText;
+            return
+        }
+
+        firstLineNumbers.innerText += kbdButtonsNumber.innerText;
+        return
     }
+
+    // Overwrite 0 if it's the only number
+    if (firstLineNumbers.innerText.length === 1 && firstLineNumbers.innerText.includes('0')) {
+        firstLineNumbers.innerText = kbdButtonsNumber.innerText;
+        return
+    }
+    
+    firstLineNumbers.innerText += kbdButtonsNumber.innerText;
     
 }
 
@@ -200,15 +209,20 @@ function addOperator(e) {
     // Trigger operate when clicking another operator instead of equal button
     if (secondaryLineNumbers.innerText !== "" && firstLineNumbers.innerText !== "") {
         operate();
+        firstLineNumbers.innerText = "";
+        firstLineCalcs.innerText = "";
+        secondaryLineNumbers.innerText = "";
+        secondaryLineCalcs.innerText = "";
     }
-        // change multiplier and divider style to better fit the font
-        if (e.target.classList.contains('multiplier-operator')) {
-            firstLineCalcs.innerText = '*';
-        } else if (e.target.classList.contains('divider')) {
-            firstLineCalcs.innerText = "/";
-        } else {
-            firstLineCalcs.innerText = e.target.innerText
-        }
+
+    // Change multiplier and divider style to better fit the font
+    if (e.target.classList.contains('multiplier-operator')) {
+        firstLineCalcs.innerText = '*';
+    } else if (e.target.classList.contains('divider')) {
+        firstLineCalcs.innerText = "/";
+    } else {
+        firstLineCalcs.innerText = e.target.innerText
+    }
 }
 
 // Add operators (keyboard)
@@ -219,30 +233,44 @@ function addKbdOperator(e) {
     // Trigger operate when clicking another operator instead of equal button
     if (secondaryLineNumbers.innerText !== "" && firstLineNumbers.innerText !== "") {
         operate();
+        firstLineNumbers.innerText = "";
+        firstLineCalcs.innerText = "";
+        secondaryLineNumbers.innerText = "";
+        secondaryLineCalcs.innerText = "";
     }
-        // change multiplier and divider style to better fit the font
-        if (kbdButtonsCalc.classList.contains('multiplier')) {
-            firstLineCalcs.innerText = '*';
-        } else if (kbdButtonsCalc.classList.contains('divider')) {
-            firstLineCalcs.innerText = "/";
-        } else {
-            firstLineCalcs.innerText = kbdButtonsCalc.innerText
-        }
+
+    // Change multiplier and divider style to better fit the font
+    if (kbdButtonsCalc.classList.contains('multiplier')) {
+        firstLineCalcs.innerText = '*';
+    } else if (kbdButtonsCalc.classList.contains('divider')) {
+        firstLineCalcs.innerText = "/";
+    } else {
+        firstLineCalcs.innerText = kbdButtonsCalc.innerText
+    }
 }
 
 // Add equal functionality
-equalButton.addEventListener('click', operate);
+equalButton.addEventListener('click', () => {
+    operate()
+    if (firstLineDefaultResult.innerText !== "") {
+        firstLineNumbers.innerText = "";
+    } else {
+        firstLineDefaultResult.innerText = "";
+    }
+    firstLineCalcs.innerText = "";
+    secondaryLineNumbers.innerText = "";
+    secondaryLineCalcs.innerText = "";
+});
 
 function operate() {
-    switch (true) {
+    switch (secondaryLineCalcs.innerText) {
 
         // Addition
-        case secondaryLineCalcs.innerText === '+':
-            arrButtonsNumber = [];
+        case '+':
             const resultAddition = Number(secondaryLineNumbers.innerText) + Number(firstLineNumbers.innerText);
             const resultAdditionString = resultAddition.toString();
             
-            // if there's dot notation
+            // If there's dot notation
             if (resultAdditionString.includes('.')) {
                 const additionDotIndex = resultAdditionString.indexOf('.');
                 const decimalNumbers = resultAdditionString.substring(additionDotIndex);
@@ -250,35 +278,28 @@ function operate() {
                 rounded[1] = decimalNumbers.slice(0, 4);
                 const newRoundedNumber = rounded[0] + rounded[1];
                 
-                // return scientific notation if result is longer than 10 numbers
+                // Return scientific notation if result is longer than 10 numbers
                 if (rounded[0].length >= 7) {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber).toExponential(3);
                 } else {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber);
                 }
             } 
-            // if there's NO dot notation
-            // return scientific notation if result is longer than 10 numbers
-            else if (resultAdditionString.length === 10) {
+            // If there's NO dot notation
+            // Return scientific notation if result is longer than 10 numbers
+            else if (resultAdditionString.length >= 11) {
                 firstLineDefaultResult.innerText = resultAddition.toExponential(3);
             } else {
                 firstLineDefaultResult.innerText = resultAddition;
-            }
-            
-            firstLineNumbers.innerText = "";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineDefaultResult.innerText);
+            }            
         break
 
         // Subtraction
-        case secondaryLineCalcs.innerText === '-':
-            arrButtonsNumber = [];
+        case '-':
             const resultSubtraction = Number(secondaryLineNumbers.innerText) - Number(firstLineNumbers.innerText);
             const resultSubtractionString = resultSubtraction.toString();
             
-            // if there's dot notation
+            // If there's dot notation
             if (resultSubtractionString.includes('.')) {
                 const subtractionDotIndex = resultSubtractionString.indexOf('.');
                 const decimalNumbers = resultSubtractionString.substring(subtractionDotIndex);
@@ -286,36 +307,28 @@ function operate() {
                 rounded[1] = decimalNumbers.slice(0, 4);
                 const newRoundedNumber = rounded[0] + rounded[1];
                 
-                // return scientific notation if result is longer than 10 numbers
+                // Return scientific notation if result is longer than 10 numbers
                 if (rounded[0].length >= 7) {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber).toExponential(3);
                 } else {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber);
                 }
-
-            }
-            // if there's NO dot notation
-            // return scientific notation if result is longer than 10 numbers
-            else if (resultSubtractionString.length === 10) {
+            } 
+            // If there's NO dot notation
+            // Return scientific notation if result is longer than 10 numbers
+            else if (resultSubtractionString.length >= 11) {
                 firstLineDefaultResult.innerText = resultSubtraction.toExponential(3);
             } else {
                 firstLineDefaultResult.innerText = resultSubtraction;
-            }
-            
-            firstLineNumbers.innerText = "";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineDefaultResult.innerText);
+            }            
         break
 
         // Multiplication
-        case secondaryLineCalcs.innerText === '*':
-            arrButtonsNumber = [];
+        case '*':
             const resultMultiplication = Number(secondaryLineNumbers.innerText) * Number(firstLineNumbers.innerText);
             const resultMultiplicationString = resultMultiplication.toString();
             
-            // if there's dot notation
+            // If there's dot notation
             if (resultMultiplicationString.includes('.')) {
                 const multiplicationDotIndex = resultMultiplicationString.indexOf('.');
                 const decimalNumbers = resultMultiplicationString.substring(multiplicationDotIndex);
@@ -323,36 +336,28 @@ function operate() {
                 rounded[1] = decimalNumbers.slice(0, 4);
                 const newRoundedNumber = rounded[0] + rounded[1];
                 
-                // return scientific notation if result is longer than 10 numbers
+                // Return scientific notation if result is longer than 10 numbers
                 if (rounded[0].length >= 7) {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber).toExponential(3);
                 } else {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber);
                 }
-
-            }
-            // if there's NO dot notation
-            // return scientific notation if result is longer than 10 numbers
-            else if (resultMultiplicationString.length === 10) {
+            } 
+            // If there's NO dot notation
+            // Return scientific notation if result is longer than 10 numbers
+            else if (resultMultiplicationString.length >= 11) {
                 firstLineDefaultResult.innerText = resultMultiplication.toExponential(3);
             } else {
                 firstLineDefaultResult.innerText = resultMultiplication;
-            }
-            
-            firstLineNumbers.innerText = "";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineDefaultResult.innerText);
+            }            
         break
 
         // Division
-        case secondaryLineCalcs.innerText === '/':
-            arrButtonsNumber = [];
+        case '/':
             const resultDivision = Number(secondaryLineNumbers.innerText) / Number(firstLineNumbers.innerText);
             const resultDivisionString = resultDivision.toString();
             
-            // if there's dot notation
+            // If there's dot notation
             if (resultDivisionString.includes('.')) {
                 const divisionDotIndex = resultDivisionString.indexOf('.');
                 const decimalNumbers = resultDivisionString.substring(divisionDotIndex);
@@ -360,44 +365,24 @@ function operate() {
                 rounded[1] = decimalNumbers.slice(0, 4);
                 const newRoundedNumber = rounded[0] + rounded[1];
                 
-                // return scientific notation if result is longer than 10 numbers
+                // Return scientific notation if result is longer than 10 numbers
                 if (rounded[0].length >= 7) {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber).toExponential(3);
                 } else {
                     firstLineDefaultResult.innerText = Number(newRoundedNumber);
                 }
-
-            }
-            // if there's NO dot notation
-            // return scientific notation if result is longer than 10 numbers
-            else if (resultDivisionString.length === 10) {
+            } 
+            // If there's NO dot notation
+            // Return scientific notation if result is longer than 10 numbers
+            else if (resultDivisionString.length >= 11) {
                 firstLineDefaultResult.innerText = resultDivision.toExponential(3);
             } else {
                 firstLineDefaultResult.innerText = resultDivision;
-            }
-            
-            firstLineNumbers.innerText = "";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineDefaultResult.innerText);
-        break
-
-        case firstLineCalcs.innerText !== "" && firstLineNumbers.innerText === "":
-            arrButtonsNumber = [];
-            firstLineNumbers.innerText = "";
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineDefaultResult.innerText);
+            }            
         break
 
         default: 
-            arrButtonsNumber = [];
-            firstLineCalcs.innerText = "";
-            secondaryLineNumbers.innerText = "";
-            secondaryLineCalcs.innerText = "";
-            arrButtonsNumber.push(firstLineNumbers.innerText);
+            return
     }
 }
 
@@ -410,18 +395,14 @@ function clear() {
     firstLineCalcs.innerText = "";
     secondaryLineNumbers.innerText = "";
     secondaryLineCalcs.innerText = "";
-    arrButtonsNumber = [];
 }
 
 // Add del button functionalities
 delButton.addEventListener('click', del);
 
 function del() {
-    arrButtonsNumber.pop();
-    firstLineNumbers.innerText = arrButtonsNumber.join("");
-    if (firstLineNumbers.innerText === "") {
-        firstLineDefaultResult.innerText = 0;
-    }
+    firstLineNumbers.innerText = firstLineNumbers.innerText.slice(0, -1);
+    if (firstLineNumbers.innerText === "") firstLineDefaultResult.innerText = 0;
 }
 
 // Add on-off button functionality
@@ -433,7 +414,6 @@ function powerOnOff() {
     firstLineCalcs.innerText = "";
     secondaryLineNumbers.innerText = "";
     secondaryLineCalcs.innerText = "";
-    arrButtonsNumber = [];
     firstLine.classList.toggle('displayOnOff');
     secondLine.classList.toggle('displayOnOff');
 }
