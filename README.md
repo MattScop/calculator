@@ -9,5 +9,7 @@ we have learned so far.
 
 As always, I took a step further and added a few more teaks like scientific notation, on/off button...
 
+**IT CAN BE USED ON MOBILE TOO**
+
 > SOURCES
 - [Link to TOP lesson](https://www.theodinproject.com/lessons/foundations-calculator)
